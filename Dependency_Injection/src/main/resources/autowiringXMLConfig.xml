@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        Bean 1: Address with name "studentAddress"
+        Used in: student3 (constructor autowiring) and student1 (if property name matches)
+    -->
+    <bean class="auto.usingXML.Address" name="studentAddress">
+        <constructor-arg index="0" value="123 Main St"/>
+        <constructor-arg index="1" value="Springfield"/>
+    </bean>
+
+    <!--
+        Bean 2: Address with name "address"
+        Used in: autowire byName or byType based on matching property or type.
+        ⚠️ Creates ambiguity in autowire="byType" because now two Address beans exist.
+    -->
+    <bean class="auto.usingXML.Address" name="address">
+        <constructor-arg index="0" value="456 Elm St"/>
+        <constructor-arg index="1" value="Shelbyville"/>
+    </bean>
+
+    <!--
+        Student 1: Autowire byName
+        - Looks for a bean whose name matches the property name in Student class.
+        - For example, if Student has `Address address`, Spring looks for bean with name "address".
+        ✅ Since we have <bean name="address">, it will inject that.
+    -->
+    <bean class="auto.usingXML.Student" name="student1" autowire="byName">
+        <constructor-arg name="studentName" value="John Doe"/>
+    </bean>
+
+    <!--
+        Student 2: Autowire byType
+        - Matches based on type of property (Address)
+        ❌ Will FAIL with exception due to ambiguity (2 Address beans available)
+        🔧 To make this work, REMOVE one of the Address beans or mark one as primary (in annotation-based config).
+    -->
+    <bean class="auto.usingXML.Student" name="student2" autowire="byType">
+        <constructor-arg name="studentName" value="Jane Smith"/>
+    </bean>
+
+    <!--
+        Student 3: Autowire via Constructor
+        - Spring matches constructor parameter types and resolves arguments.
+        ✅ Will work if constructor of Student has (String name, Address address).
+        ✅ Will inject studentName with "Alice Johnson" and Address from "studentAddress" bean.
+    -->
+    <bean class="auto.usingXML.Student" name="student3" autowire="constructor">
+        <constructor-arg name="studentName" value="Alice Johnson"/>
+        <constructor-arg ref="studentAddress"/>
+    </bean>
+
+</beans>

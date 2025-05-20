@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- usingCallbacks1: uses constructor injection -->
+    <bean class="org.basics.Temp" name="usingCallbacks1">
+        <constructor-arg index="0" value="25" type="int"/>
+        <constructor-arg index="1" value="Shriyash" type="java.lang.String"/>
+    </bean>
+
+    <!-- usingCallbacks2: uses setter injection -->
+    <bean class="org.basics.Temp" name="usingCallbacks2">
+        <property name="tempId" value="30"/>
+        <property name="tempName" value="Shriyash Dongarkar"/>
+        <property name="tempValues">
+            <list>
+                <value>Value1</value>
+                <value>Value2</value>
+                <value>Value3</value>
+                <null/>
+            </list>
+        </property>
+        <property name="props">
+            <props>
+                <prop key="url">https://example.com</prop>
+                <prop key="username">admin</prop>
+                <prop key="password">secret</prop>
+            </props>
+        </property>
+    </bean>
+
+
+</beans>

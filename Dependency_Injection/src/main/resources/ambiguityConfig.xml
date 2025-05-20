@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        sum1: Ambiguity case
+        - Spring sees both constructors: Sum(int, int) and Sum(String, String)
+        - Since XML values are strings by default, Spring resolves to Sum(String, String)
+        - Output: "Sum Constructor: String"
+    -->
+    <bean class="org.ambiguity.Sum" id="sum1">
+        <constructor-arg index="0" value="10" />
+        <constructor-arg index="1" value="20" />
+    </bean>
+
+    <!--
+        sum2: Explicit type declaration
+        - Using type="int" forces Spring to resolve to Sum(int, int)
+        - Avoids ambiguity
+        - Output: "Sum Constructor: Integer"
+    -->
+    <bean class="org.ambiguity.Sum" id="sum2">
+        <constructor-arg index="0" value="10" type="int"/>
+        <constructor-arg index="1" value="20" type="int"/>
+    </bean>
+
+</beans>
