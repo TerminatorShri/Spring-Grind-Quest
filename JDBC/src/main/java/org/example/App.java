@@ -15,13 +15,34 @@ public class App {
 
         StudentDao studentDao = (StudentDao) context.getBean("studentDao");
 
-        Student student = new Student(10, "Shriyash", "Bangalore");
-        int result = studentDao.insertStudent(student);
+        // Inserting a Student
+        // Student student = new Student(10, "Shriyash", "Bangalore");
+        // int result = studentDao.insertStudent(student);
+
+        // if (result > 0) {
+        //    System.out.println("Student inserted successfully");
+        // } else {
+        //    System.out.println("Failed to insert student");
+        // }
+
+        // Updating a Student
+        // Student student = new Student(10, "Shriyash Dongarkar", "Pune");
+        // int result = studentDao.updateStudent(student);
+
+        // if (result > 0) {
+        //     System.out.println("Student updated successfully");
+        // } else {
+        //     System.out.println("Failed to update student");
+        // }
+
+        // Deleting a Student
+        int studentId = 5;
+        int result = studentDao.deleteStudent(studentId);
 
         if (result > 0) {
-            System.out.println("Student inserted successfully");
+            System.out.println("Student deleted successfully");
         } else {
-            System.out.println("Failed to insert student");
+            System.out.println("Failed to delete student");
         }
     }
 }
