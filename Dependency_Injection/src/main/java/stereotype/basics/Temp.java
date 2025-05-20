@@ -18,6 +18,14 @@ public class Temp {
     @Value("#{tempList}")
     private ArrayList<String> tempValues;
 
+    // Injects the result of evaluating the static method Math.sqrt(36), i.e., 6.0 (auto-converted to int)
+    @Value("#{T(java.lang.Math).sqrt(36)}")
+    private int calculatedValue;
+
+    // Injects a new String object with the value "Shriyash" using Spring Expression Language (SpEL)
+    @Value("#{ new java.lang.String('Shriyash') }")
+    private String objectName;
+
     public String getTempName() {
         return tempName;
     }
@@ -34,11 +42,29 @@ public class Temp {
         this.tempValues = tempValues;
     }
 
+    public int getCalculatedValue() {
+        return calculatedValue;
+    }
+
+    public void setCalculatedValue(int calculatedValue) {
+        this.calculatedValue = calculatedValue;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
     @Override
     public String toString() {
         return "Temp{ " +
                 "tempName='" + tempName + '\'' +
                 ", tempValues=" + tempValues +
+                ", calculatedValue=" + calculatedValue +
+                ", objectName='" + objectName + '\'' +
                 " }";
     }
 }
