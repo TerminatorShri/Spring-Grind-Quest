@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <!-- usingCallbacks1: uses constructor injection -->
+    <!-- 🔸 Defining a standalone list using util namespace -->
+    <!-- This can be injected into any bean that accepts a List<String> -->
+    <util:list list-class="java.util.ArrayList" id="tempValues">
+        <value>Val1</value>
+        <value>Val2</value>
+        <value>Val3</value>
+    </util:list>
+
+    <!-- 🔹 Bean: usingCallbacks1 -->
+    <!-- Demonstrates Constructor Injection -->
     <bean class="org.basics.Temp" name="usingCallbacks1">
+        <!-- Injects primitive int into constructor (e.g., tempId) -->
         <constructor-arg index="0" value="25" type="int"/>
+        <!-- Injects String value into constructor (e.g., tempName) -->
         <constructor-arg index="1" value="Shriyash" type="java.lang.String"/>
     </bean>
 
-    <!-- usingCallbacks2: uses setter injection -->
+    <!-- 🔹 Bean: usingCallbacks2 -->
+    <!-- Demonstrates Setter Injection -->
     <bean class="org.basics.Temp" name="usingCallbacks2">
+        <!-- Setter injection for tempId -->
         <property name="tempId" value="30"/>
+        <!-- Setter injection for tempName -->
         <property name="tempName" value="Shriyash Dongarkar"/>
+
+        <!-- Injecting a list directly into the bean (defined inline) -->
         <property name="tempValues">
             <list>
                 <value>Value1</value>
                 <value>Value2</value>
                 <value>Value3</value>
-                <null/>
+                <null/> <!-- Can explicitly inject a null value -->
             </list>
         </property>
+
+        <!-- Injecting a properties map -->
         <property name="props">
             <props>
                 <prop key="url">https://example.com</prop>
@@ -31,5 +53,17 @@
         </property>
     </bean>
 
+    <!-- 🔹 Bean: temp1 -->
+    <!-- Uses setter injection + external list via reference -->
+    <bean class="org.basics.Temp" name="temp1">
+        <property name="tempId" value="25"/>
+        <property name="tempName" value="Shriyash Dongarkar"/>
+
+        <!-- Option 1 (commented): Use SpEL (Spring Expression Language) -->
+        <!-- <property name="tempValues" value="#{tempValues}"/> -->
+
+        <!-- Option 2: Reference the util:list bean created above -->
+        <property name="tempValues" ref="tempValues"/>
+    </bean>
 
 </beans>
