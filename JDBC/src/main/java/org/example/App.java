@@ -3,7 +3,8 @@ package org.example;
 import org.example.Dao.StudentDao;
 import org.example.entities.Student;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+// import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -12,7 +13,12 @@ import java.util.List;
  */
 public class App {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("jdbcConfig.xml");
+        // Option 1: XML-Based Configuration (Uncomment if using XML)
+        // ApplicationContext context = new ClassPathXmlApplicationContext("jdbcConfig.xml");
+
+        // Option 2: Java-Based Configuration (Recommended and used here)
+        // This loads the Spring context using annotations defined in the JDBCConfig class.
+        ApplicationContext context = new AnnotationConfigApplicationContext(JDBCConfig.class);
 
         StudentDao studentDao = (StudentDao) context.getBean("studentDao");
 
