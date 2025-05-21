@@ -1,7 +1,11 @@
 package org.example.Dao;
 
 import org.example.entities.Student;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.util.List;
 
 public class StudentDaoImpl implements StudentDao {
     private JdbcTemplate jdbcTemplate;
@@ -12,6 +16,21 @@ public class StudentDaoImpl implements StudentDao {
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public Student getStudent(int studentId) {
+        String query = "SELECT * FROM student WHERE studentId = ?";
+        RowMapper<Student> rowMapper = new BeanPropertyRowMapper<Student>(Student.class);
+
+        return this.jdbcTemplate.queryForObject(query, rowMapper, studentId);
+    }
+
+    @Override
+    public List<Student> getStudents() {
+        String query = "SELECT * FROM student";
+        RowMapper<Student> rowMapper = new BeanPropertyRowMapper<Student>(Student.class);
+        return this.jdbcTemplate.query(query, rowMapper);
     }
 
     @Override

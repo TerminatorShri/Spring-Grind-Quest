@@ -4,7 +4,8 @@ import org.example.Dao.StudentDao;
 import org.example.entities.Student;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
 
 /**
  * Hello world!
@@ -36,13 +37,34 @@ public class App {
         // }
 
         // Deleting a Student
-        int studentId = 5;
-        int result = studentDao.deleteStudent(studentId);
+        // int studentId = 5;
+        // int result = studentDao.deleteStudent(studentId);
 
-        if (result > 0) {
-            System.out.println("Student deleted successfully");
+        // if (result > 0) {
+        //     System.out.println("Student deleted successfully");
+        // } else {
+        //     System.out.println("Failed to delete student");
+        // }
+
+        // Fetching a Student
+        int studentId = 10;
+        Student student = studentDao.getStudent(studentId);
+
+        if (student != null) {
+            System.out.println("Student details: " + student);
         } else {
-            System.out.println("Failed to delete student");
+            System.out.println("Student not found");
+        }
+
+        // Fetching all Students
+        List<Student> students = studentDao.getStudents();
+        if (students != null && !students.isEmpty()) {
+            System.out.println("All students: ");
+            for (Student s : students) {
+                System.out.println(s);
+            }
+        } else {
+            System.out.println("No students found");
         }
     }
 }
