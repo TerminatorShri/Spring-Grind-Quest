@@ -19,6 +19,11 @@ public class User {
     public User() {
     }
 
+    public User(String userName, String userCity) {
+        this.userName = userName;
+        this.userCity = userCity;
+    }
+
     public User(int userId, String userName, String userCity) {
         this.userId = userId;
         this.userName = userName;

@@ -8,6 +8,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.List;
+import java.util.Optional;
+
 @SpringBootApplication(scanBasePackages = "org.spring")
 @EnableJpaRepositories(basePackages = "org.spring.dao")
 @EntityScan(basePackages = "org.spring.entities")
@@ -18,12 +21,42 @@ public class JpaApplication {
 
         UserRepository userRepository = context.getBean(UserRepository.class);
 
-        User user = new User();
-        user.setUserName("Shreeyash");
-        user.setUserCity("Bangalore");
+        // Create a new user
+        // User user1 = new User();
+        // user.setUserName("Shreeyash");
+        /// user.setUserCity("Bangalore");
+        // User savedUser1 = userRepository.save(user1);
+        // System.out.println(savedUser1);
 
-        User user1 = userRepository.save(user);
-        System.out.println(user1);
+        // User user2 = new User("Shreeyash Dongarkar", "Bangalore");
+        // List<User> users = List.of(user1, user2);
+
+        // Save multiple users
+        // List<User> savedUsers = userRepository.saveAll(users);
+
+        // Read all users
+        Iterable<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            System.out.println(user);
+        }
+
+        // Update a user
+        User userToUpdate = userRepository.findById(1).orElse(null);
+
+        if (userToUpdate != null) {
+            userToUpdate.setUserCity("Pune");
+            userRepository.save(userToUpdate);
+        }
+
+        // Delete a user
+        User userToDelete = userRepository.findById(2).orElse(null);
+
+        if (userToDelete != null) {
+            userRepository.delete(userToDelete);
+            System.out.println("User deleted successfully");
+        }
+
     }
 
 }
