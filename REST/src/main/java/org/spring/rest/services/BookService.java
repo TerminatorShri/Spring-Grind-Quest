@@ -37,5 +37,37 @@ public class BookService {
         return null;
     }
 
+    public boolean addBook(Book book) {
+        if (book != null) {
+            for (Book b : bookList) {
+                if (b.getBookId() == book.getBookId()) {
+                    return false;
+                }
+            }
+            bookList.add(book);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean updateBook(int id, Book book) {
+        for (Book b : bookList) {
+            if (b.getBookId() == id) {
+                b.setBookName(book.getBookName());
+                b.setAuthorName(book.getAuthorName());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteBook(int id) {
+        for (Book b : bookList) {
+            if (b.getBookId() == id) {
+                bookList.remove(b);
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -2,8 +2,6 @@ package org.spring.rest.controllers;
 
 import org.spring.rest.entities.Book;
 import org.spring.rest.services.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,5 +23,20 @@ public class BookController {
     @GetMapping("/books")
     public List<Book> getBooks() {
         return bookService.getBooks();
+    }
+
+    @PostMapping("/books")
+    public boolean addBook(@RequestBody Book book) {
+        return bookService.addBook(book);
+    }
+
+    @PutMapping("/books/{bookId}")
+    public boolean updateBook(@PathVariable int bookId, @RequestBody Book book) {
+        return bookService.updateBook(bookId, book);
+    }
+
+    @DeleteMapping("/books/{bookId}")
+    public boolean deleteBook(@PathVariable int bookId) {
+        return bookService.deleteBook(bookId);
     }
 }
