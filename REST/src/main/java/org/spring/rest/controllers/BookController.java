@@ -47,9 +47,9 @@ public class BookController {
     @PostMapping("/books")
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         try {
-            boolean isAdded = bookService.addBook(book);
-            if (isAdded) {
-                return ResponseEntity.ok(true);
+            Book addedBook = bookService.addBook(book);
+            if (addedBook != null) {
+                return ResponseEntity.ok(addedBook);
             } else {
                 return ResponseEntity.status(400).body("Book with the same ID already exists or input is invalid.");
             }
@@ -61,9 +61,9 @@ public class BookController {
     @PutMapping("/books/{bookId}")
     public ResponseEntity<?> updateBook(@PathVariable int bookId, @RequestBody Book book) {
         try {
-            boolean isUpdated = bookService.updateBook(bookId, book);
-            if (isUpdated) {
-                return ResponseEntity.ok(true);
+            Book updatedBook = bookService.updateBook(bookId, book);
+            if (updatedBook != null) {
+                return ResponseEntity.ok(updatedBook);
             } else {
                 return ResponseEntity.status(400).body("Book not found or update failed.");
             }

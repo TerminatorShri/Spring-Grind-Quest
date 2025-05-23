@@ -9,12 +9,14 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bookId;
     private String bookName;
-    private String bookAuthor;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Author bookAuthor;
 
     public Book() {
     }
 
-    public Book(int bookId, String bookName, String bookAuthor) {
+    public Book(int bookId, String bookName, Author bookAuthor) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.bookAuthor = bookAuthor;
@@ -36,11 +38,11 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public String getBookAuthor() {
+    public Author getBookAuthor() {
         return bookAuthor;
     }
 
-    public void setBookAuthor(String bookAuthor) {
+    public void setBookAuthor(Author bookAuthor) {
         this.bookAuthor = bookAuthor;
     }
 

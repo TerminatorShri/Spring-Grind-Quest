@@ -36,36 +36,34 @@ public class BookService {
         return book;
     }
 
-    public Boolean addBook(Book book) {
+    public Book addBook(Book book) {
         try {
             if (book.getBookName() == null || book.getBookAuthor() == null) {
-                return false;
+                return null;
             }
-            bookRepository.save(book);
-            return true;
+            return bookRepository.save(book);
         } catch (Exception e) {
             System.out.println("Error adding book: " + e.getMessage());
-            return false;
+            return null;
         }
     }
 
-    public Boolean updateBook(int id, Book book) {
+    public Book updateBook(int id, Book book) {
         try {
             if (book.getBookName() == null || book.getBookAuthor() == null) {
-                return false;
+                return null;
             }
             Book existingBook = bookRepository.findById(id).orElse(null);
             if (existingBook != null) {
                 existingBook.setBookName(book.getBookName());
                 existingBook.setBookAuthor(book.getBookAuthor());
-                bookRepository.save(existingBook);
-                return true;
+                return bookRepository.save(existingBook);
             } else {
-                return false;
+                return null;
             }
         } catch (Exception e) {
             System.out.println("Error updating book: " + e.getMessage());
-            return false;
+            return null;
         }
     }
 
