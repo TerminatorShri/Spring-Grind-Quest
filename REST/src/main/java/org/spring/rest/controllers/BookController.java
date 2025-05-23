@@ -2,6 +2,7 @@ package org.spring.rest.controllers;
 
 import org.spring.rest.entities.Book;
 import org.spring.rest.services.BookService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +17,72 @@ public class BookController {
     }
 
     @GetMapping("/books/{bookId}")
-    public Book getBookById(@PathVariable int bookId) {
-        return bookService.getBookById(bookId);
+    public ResponseEntity<?> getBookById(@PathVariable int bookId) {
+        try {
+            Book book = bookService.getBookById(bookId);
+            if (book != null) {
+                return ResponseEntity.ok(book);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error fetching book: " + e.getMessage());
+        }
     }
 
     @GetMapping("/books")
-    public List<Book> getBooks() {
-        return bookService.getBooks();
+    public ResponseEntity<?> getBooks() {
+        try {
+            List<Book> books = bookService.getBooks();
+            if (books != null && !books.isEmpty()) {
+                return ResponseEntity.ok(books);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error fetching books: " + e.getMessage());
+        }
     }
 
     @PostMapping("/books")
-    public boolean addBook(@RequestBody Book book) {
-        return bookService.addBook(book);
+    public ResponseEntity<?> addBook(@RequestBody Book book) {
+        try {
+            boolean isAdded = bookService.addBook(book);
+            if (isAdded) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.status(400).body("Book with the same ID already exists or input is invalid.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error adding book: " + e.getMessage());
+        }
     }
 
     @PutMapping("/books/{bookId}")
-    public boolean updateBook(@PathVariable int bookId, @RequestBody Book book) {
-        return bookService.updateBook(bookId, book);
+    public ResponseEntity<?> updateBook(@PathVariable int bookId, @RequestBody Book book) {
+        try {
+            boolean isUpdated = bookService.updateBook(bookId, book);
+            if (isUpdated) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.status(400).body("Book not found or update failed.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error updating book: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/books/{bookId}")
-    public boolean deleteBook(@PathVariable int bookId) {
-        return bookService.deleteBook(bookId);
+    public ResponseEntity<?> deleteBook(@PathVariable int bookId) {
+        try {
+            boolean isDeleted = bookService.deleteBook(bookId);
+            if (isDeleted) {
+                return ResponseEntity.ok(true);
+            } else {
+                return ResponseEntity.status(400).body("Book not found or deletion failed.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error deleting book: " + e.getMessage());
+        }
     }
 }

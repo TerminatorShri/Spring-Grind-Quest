@@ -37,7 +37,7 @@ public class BookService {
         return null;
     }
 
-    public boolean addBook(Book book) {
+    public Boolean addBook(Book book) {
         if (book != null) {
             for (Book b : bookList) {
                 if (b.getBookId() == book.getBookId()) {
@@ -50,7 +50,7 @@ public class BookService {
         return false;
     }
 
-    public boolean updateBook(int id, Book book) {
+    public Boolean updateBook(int id, Book book) {
         for (Book b : bookList) {
             if (b.getBookId() == id) {
                 b.setBookName(book.getBookName());
@@ -61,7 +61,7 @@ public class BookService {
         return false;
     }
 
-    public boolean deleteBook(int id) {
+    public Boolean deleteBook(int id) {
         for (Book b : bookList) {
             if (b.getBookId() == id) {
                 bookList.remove(b);
