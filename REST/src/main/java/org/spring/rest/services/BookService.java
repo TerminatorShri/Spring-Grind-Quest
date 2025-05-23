@@ -1,6 +1,7 @@
 package org.spring.rest.services;
 
 import org.spring.rest.entities.Book;
+import org.spring.rest.repositories.BookRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,66 +9,73 @@ import java.util.List;
 
 @Component
 public class BookService {
-    private static final List<Book> bookList = new ArrayList<Book>();
 
-    static {
-        Book book1 = new Book(1, "Book 1", "Author 1");
-        Book book2 = new Book(2, "Book 2", "Author 2");
-        Book book3 = new Book(3, "Book 3", "Author 3");
-        Book book4 = new Book(4, "Book 4", "Author 4");
-        Book book5 = new Book(5, "Book 5", "Author 5");
+    private final BookRepository bookRepository;
 
-        bookList.add(book1);
-        bookList.add(book2);
-        bookList.add(book3);
-        bookList.add(book4);
-        bookList.add(book5);
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getBooks() {
+        List<Book> bookList = new ArrayList<>();
+        try {
+            bookList = bookRepository.findAll();
+        } catch (Exception e) {
+            System.out.println("Error fetching books: " + e.getMessage());
+        }
         return bookList;
     }
 
     public Book getBookById(int id) {
-        for (Book book : bookList) {
-            if (book.getBookId() == id) {
-                return book;
-            }
+        Book book = null;
+        try {
+            book = bookRepository.findById(id).orElse(null);
+        } catch (Exception e) {
+            System.out.println("Error fetching book: " + e.getMessage());
         }
-        return null;
+        return book;
     }
 
     public Boolean addBook(Book book) {
-        if (book != null) {
-            for (Book b : bookList) {
-                if (b.getBookId() == book.getBookId()) {
-                    return false;
-                }
+        try {
+            if (book.getBookName() == null || book.getBookAuthor() == null) {
+                return false;
             }
-            bookList.add(book);
+            bookRepository.save(book);
             return true;
+        } catch (Exception e) {
+            System.out.println("Error adding book: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public Boolean updateBook(int id, Book book) {
-        for (Book b : bookList) {
-            if (b.getBookId() == id) {
-                b.setBookName(book.getBookName());
-                b.setAuthorName(book.getAuthorName());
-                return true;
+        try {
+            if (book.getBookName() == null || book.getBookAuthor() == null) {
+                return false;
             }
+            Book existingBook = bookRepository.findById(id).orElse(null);
+            if (existingBook != null) {
+                existingBook.setBookName(book.getBookName());
+                existingBook.setBookAuthor(book.getBookAuthor());
+                bookRepository.save(existingBook);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating book: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public Boolean deleteBook(int id) {
-        for (Book b : bookList) {
-            if (b.getBookId() == id) {
-                bookList.remove(b);
-                return true;
-            }
+        try {
+            bookRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error deleting book: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 }

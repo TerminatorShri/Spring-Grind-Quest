@@ -1,24 +1,30 @@
 package org.spring.rest.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
-    private int bookId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bookId;
     private String bookName;
-    private String authorName;
+    private String bookAuthor;
 
     public Book() {
     }
 
-    public Book(int bookId, String bookName, String authorName) {
+    public Book(int bookId, String bookName, String bookAuthor) {
         this.bookId = bookId;
         this.bookName = bookName;
-        this.authorName = authorName;
+        this.bookAuthor = bookAuthor;
     }
 
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
@@ -30,12 +36,12 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public String getAuthorName() {
-        return authorName;
+    public String getBookAuthor() {
+        return bookAuthor;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setBookAuthor(String bookAuthor) {
+        this.bookAuthor = bookAuthor;
     }
 
     @Override
@@ -43,7 +49,7 @@ public class Book {
         return "Book{ " +
                 "bookId=" + bookId +
                 ", bookName='" + bookName + '\'' +
-                ", authorName='" + authorName + '\'' +
+                ", authorName='" + bookAuthor + '\'' +
                 " }";
     }
 }
