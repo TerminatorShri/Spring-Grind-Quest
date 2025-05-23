@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication(scanBasePackages = "org.spring")
 @EnableJpaRepositories(basePackages = "org.spring.dao")
@@ -35,28 +34,39 @@ public class JpaApplication {
         // List<User> savedUsers = userRepository.saveAll(users);
 
         // Read all users
-        Iterable<User> users = userRepository.findAll();
+        // Iterable<User> users = userRepository.findAll();
 
-        for (User user : users) {
+        // for (User user : users) {
+        //     System.out.println(user);
+        // }
+
+        // Update a user
+        // User userToUpdate = userRepository.findById(1).orElse(null);
+
+        // if (userToUpdate != null) {
+        //     userToUpdate.setUserCity("Pune");
+        //     userRepository.save(userToUpdate);
+        // }
+
+        // Delete a user
+        // User userToDelete = userRepository.findById(2).orElse(null);
+
+        // if (userToDelete != null) {
+        //     userRepository.delete(userToDelete);
+        //     System.out.println("User deleted successfully");
+        // }
+
+        List<User> selectedUsers = userRepository.findByUserNameAndUserCity("Shreeyash", "Bangalore");
+
+        for (User user : selectedUsers) {
             System.out.println(user);
         }
 
-        // Update a user
-        User userToUpdate = userRepository.findById(1).orElse(null);
+        List<User> selectedUsers2 = userRepository.findUserByUserNameStartingWith("Shree");
 
-        if (userToUpdate != null) {
-            userToUpdate.setUserCity("Pune");
-            userRepository.save(userToUpdate);
+        for (User user : selectedUsers2) {
+            System.out.println(user);
         }
-
-        // Delete a user
-        User userToDelete = userRepository.findById(2).orElse(null);
-
-        if (userToDelete != null) {
-            userRepository.delete(userToDelete);
-            System.out.println("User deleted successfully");
-        }
-
     }
 
 }
