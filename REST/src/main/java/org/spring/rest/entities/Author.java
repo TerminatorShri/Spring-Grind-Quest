@@ -1,5 +1,6 @@
 package org.spring.rest.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +11,10 @@ public class Author {
     private Integer authorId;
     private String authorName;
     private String authorEmail;
+
+    @OneToOne(mappedBy = "bookAuthor")
+    @JsonBackReference
+    private Book book;
 
     public Author() {
     }

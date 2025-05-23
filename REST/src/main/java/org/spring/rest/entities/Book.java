@@ -1,5 +1,6 @@
 package org.spring.rest.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class Book {
     private String bookName;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Author bookAuthor;
 
     public Book() {
