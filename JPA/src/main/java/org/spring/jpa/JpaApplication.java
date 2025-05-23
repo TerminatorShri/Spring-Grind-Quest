@@ -67,6 +67,14 @@ public class JpaApplication {
         for (User user : selectedUsers2) {
             System.out.println(user);
         }
+
+        User selectedUser = userRepository.findUserByUserNameAndUserCity("Shreeyash", "Bangalore");
+
+        if (selectedUser != null) {
+            System.out.println(selectedUser);
+        } else {
+            System.out.println("User not found");
+        }
     }
 
 }
